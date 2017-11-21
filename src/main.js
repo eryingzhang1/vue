@@ -41,8 +41,11 @@ var router = new VueRouter({
 
 // 4.0 导入vue的一个组件库:element-ui
 import elementUI from 'element-ui';
-// 导入默认样式
-import 'element-ui/lib/theme-default/index.css';
+// 导入默认样式(由于咱们自己修改了样式所以要替换默认样式)
+import '../statics/theme_rms/index.css';
+
+// 导入自己编写的全局样式
+import '../statics/css/site.css';
 
 // 绑定到vue中
 Vue.use(elementUI);
