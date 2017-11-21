@@ -38,7 +38,8 @@
                 <!-- 表格区域
                 :data="list" 一定但是了一个数组，el-table就会自动遍历生成表格的每一个行数据
                 -->
-                <el-table ref="multipleTable" :data="list" border tooltip-effect="dark" style="width: 100%">
+                <el-table ref="multipleTable" :data="list" border
+                 tooltip-effect="dark" style="width: 100%">
                     <!-- type="selection":这一列是一个checkbox勾选框 -->
                     <el-table-column type="selection" width="55">
                     </el-table-column>
@@ -77,6 +78,9 @@
 </template>
 
 <script>
+    // 导入axios
+    import axios from 'axios';
+
     export default {
         data() {
             return {
@@ -88,8 +92,18 @@
         methods: {
             // 1.0 负责利用axios发出ajax请求：http://127.0.0.1:8899/admin/goods/getlist?pageIndex=1&pageSize=10&searchvalue=this.searchValue
             getlist() {
-                console.log(this.searchValue);
+            //    1.0.1 定义url
+            var url = 'http://127.0.0.1:8899/admin/goods/getlist?pageIndex=1&pageSize=10&searchvalue='+this.searchValue;
+
+            // 1.0.2 请求(axios)
+            this.$ajax.get(url).then(res=>{
+                this.list = res.data.message;
+            });
             }
+        },
+        mounted(){
+            // 当页面进入的时候就请求数据
+            this.getlist();
         }
     }
 </script>

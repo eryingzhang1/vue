@@ -50,6 +50,7 @@ import '../statics/css/site.css';
 // 绑定到vue中
 Vue.use(elementUI);
 
+
 // 3.0 实例化vue对象
 new Vue({
     el:'#app',
