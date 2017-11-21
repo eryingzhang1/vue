@@ -6,7 +6,7 @@
                 <!-- 1.0 左边菜单 -->
                 <img src="../../statics/imgs/logo.png" alt="">
                 <div class="layout menu">
-                    <el-menu default-active="1-2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+                    <el-menu default-active="1-2" class="el-menu-vertical-demo">
                         <el-submenu index="1">
                             <template slot="title">
                                 <i class="el-icon-message"></i>购物商城</template>
@@ -32,7 +32,25 @@
                 <el-row>
                     <el-col :span="24">
                         <!--2.0 顶部登录信息条 -->
-                        顶部
+                        <div class="topbg">
+                        <el-row>
+                            <!-- 左边的图标 -->
+                            <el-col :span="1">
+                                <i class="el-icon-menu"></i>
+                            </el-col>
+                            <!-- 右边的登录信息和相关操作 -->
+                            <el-col :span="23">
+                                欢迎【xxx】登录
+                                <el-dropdown split-button type="primary">
+                                        更多菜单
+                                        <el-dropdown-menu slot="dropdown">
+                                          <el-dropdown-item>修改密码</el-dropdown-item>
+                                          <el-dropdown-item>注销</el-dropdown-item>                                         
+                                        </el-dropdown-menu>
+                                      </el-dropdown>
+                            </el-col>
+                        </el-row>
+                        </div>
                     </el-col>
                 </el-row>
 
