@@ -78,8 +78,6 @@
 </template>
 
 <script>
-    // 导入axios
-    import axios from 'axios';
 
     export default {
         data() {
@@ -92,8 +90,8 @@
         methods: {
             // 1.0 负责利用axios发出ajax请求：http://127.0.0.1:8899/admin/goods/getlist?pageIndex=1&pageSize=10&searchvalue=this.searchValue
             getlist() {
-            //    1.0.1 定义url
-            var url = 'http://127.0.0.1:8899/admin/goods/getlist?pageIndex=1&pageSize=10&searchvalue='+this.searchValue;
+            //    1.0.1 定义url 路径
+            var url = '/admin/goods/getlist?pageIndex=1&pageSize=10&searchvalue='+this.searchValue;
 
             // 1.0.2 请求(axios)
             this.$ajax.get(url).then(res=>{
