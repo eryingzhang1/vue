@@ -26,7 +26,8 @@
 
                         <el-col :offset="14" :span="4">
                             <!-- 搜索框 -->
-                            <el-input placeholder="请输入搜索内容" icon="search" v-model="searchValue" :on-icon-click="getlist">
+                            <el-input placeholder="请输入搜索内容" icon="search" v-model="searchValue" 
+                            :on-icon-click="getlist">
                             </el-input>
                         </el-col>
                     </el-row>
@@ -52,11 +53,12 @@
                     </el-table-column>
                     <el-table-column prop="sell_price" label="销售价" width="100">
                     </el-table-column>
-                    <el-table-column label="属性" width="80">
+                    <el-table-column label="属性" width="120">
                         <!-- scope:代表但是当前:data中的指向的某个对象，可以通过 scope -->
                         <template scope="scope">
                             <!-- 取得是list中的对象中的user_name这个属性的值 -->
-                            {{scope.row.user_name}}
+                            <i v-bind="{class:'el-icon-picture '+(scope.row.is_slide==1?'':'unlinght') }"></i>
+                            <i v-bind="{class:'el-icon-upload '+(scope.row.is_top==1?'':'unlinght') }"></i>                           
                         </template>
                     </el-table-column>
 
@@ -138,4 +140,9 @@
     }
 </script>
 <style scoped>
+
+.unlinght{
+     color:rgba(0,0,0,0.3);
+ }
+
 </style>
