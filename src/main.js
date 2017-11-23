@@ -30,7 +30,7 @@ var router = new VueRouter({
         // 默认跳转的路由规则
         {name:'default',path:'/',redirect:'/admin'},
         // 登录
-        {name:'login',path:'/login',component:login},
+        {name:'login',path:'/login',component:login,meta:{nologin:true}},
         // 布局
         {name:'layout',path:'/admin',component:layout,
         children:[
@@ -41,6 +41,7 @@ var router = new VueRouter({
     }
     ]
 });
+
 
 // 4.0 导入vue的一个组件库:element-ui
 import elementUI from 'element-ui';
@@ -59,8 +60,52 @@ import axios from 'axios';
 // 5.0.1 设定axios的默认请求域名，将来在真正调用get,post方法的时候传入的url中就不需要带域名的
 axios.defaults.baseURL = 'http://127.0.0.1:8899';
 
+// 5.0.2 配置axios在请求数据服务接口的时候，允许带cookie(凭证)
+axios.defaults.withCredentials = true;
+
 // 5.0.2 将axios对象绑定到Vue的原型属性 $ajax上，将来在任何组件中均可以通过this.$ajax中的get(),post() 就可以发出ajax请求了
 Vue.prototype.$ajax = axios;
+
+
+
+// 6 在vue-router对象上添加一个全局守卫，在任何组件渲染出来之前都需要先执行这个守卫函数
+router.beforeEach((to,from,next)=>{
+    // 通过axios请求 /admin/account/islogin 这个接口来判断当前浏览器是否有登录
+    /*
+        to和from的格式：{
+            name:  代表的是当前路由规则对象的名字
+            path:  代表的是当前路由规则对象的路径
+            meta: 代表程序员在定义路由规则对象的时候，手动添加的  meta:{} 对象
+
+        }
+    */ 
+    // console.log(to);
+    // console.log(from);
+    
+    // 判断如果进入的是登录页面，由于登录的路由规则上有一个  meta:{nologin:true} 而其他规则上没有
+    // 所以可以判断 to.meta.nologin 的值如果是为true则跳过登录检查，否则进入登录检查
+    if(to.meta.nologin){
+        next();
+
+        // 阻断下面代码的继续运行
+        return;
+    }
+
+    // 进入任何组件都会触发这个请求，进行登录判断
+    axios.get('/admin/account/islogin').then(res=>{       
+        if(res.data.code =='nologin'){
+            // 表示没有登录，则跳转到登录页面
+            router.push({name:'login'});
+        }else{
+            // 登录成功
+             // 调用next()继续渲染组件
+            next();
+        }
+    });
+
+    // 调用next()继续渲染组件
+    // next();
+});
 
 // 3.0 实例化vue对象
 new Vue({
