@@ -4,7 +4,7 @@
         <div class="abread bt-line">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item>
-                    <span @click="back">返回上一层</span>
+                    <span>返回上一层</span>
                 </el-breadcrumb-item>
                 <el-breadcrumb-item>购物商城</el-breadcrumb-item>
                 <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -24,8 +24,10 @@
                         <el-form-item label="所属类别">
                             <el-select v-model="ruleForm.category_id" placeholder="所属类别">
                                 <!-- 这些值一定是从数据api接口请求下来的 v-for来生成  el-option-->
-                                <el-option label="区域一" value="shanghai"></el-option>
-                                <el-option label="区域二" value="beijing"></el-option>
+                                <el-option v-for="item in catelist" :value="item.category_id">
+                                    <!-- 判断item.class_layer >1 就应该添加 |- -->
+                                 <span v-for="sub in (item.class_layer -1 )">&nbsp;</span> <span v-if="item.class_layer>1">|-</span>{{item.title}}
+                                </el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="是否发布">
@@ -41,12 +43,12 @@
                             </el-switch>
                         </el-form-item>
                         <el-form-item label="封面上传">
-                            <el-upload class="upload-demo" action="#" :file-list="imgList" list-type="picture">
+                            <el-upload class="upload-demo" action="#" :file-list="ruleForm.imgList" list-type="picture">
                                 <el-button size="small" type="primary">点击上传</el-button>
                             </el-upload>
                         </el-form-item>
                         <el-form-item label="相册上传">
-                            <el-upload class="upload-demo" action="#" :file-list="fileList" list-type="picture">
+                            <el-upload class="upload-demo" action="#" :file-list="ruleForm.fileList" list-type="picture">
                                 <el-button size="small" type="primary">点击上传</el-button>
                             </el-upload>
                         </el-form-item>
@@ -71,8 +73,7 @@
                             vue-quill-editor 使用参考：http://172.16.2.23/vue/vueproject/project_admin.html#2
                             :content  ->类似于 v-model
                         -->
-                            <quill-editor :content="ruleForm.content"                            
-                            >
+                            <quill-editor :content="ruleForm.content">
                             </quill-editor>
                         </el-form-item>
 
@@ -99,6 +100,8 @@
         },
         data() {
             return {
+                // catelist
+                catelist: [],  //存储分类下拉框中的数据
                 // 表单元素的双向数据绑定对象
                 ruleForm: {
                     title: '',
@@ -138,7 +141,20 @@
                 }
             }
         },
+        mounted() {
+            // 获取商品的分类数据列表
+            this.getcastlist();
+        },
         methods: {
+            // 3.0 获取商品分类数据
+            getcastlist() {
+                // 请求接口地址
+                var url = '/admin/category/getlist/goods';
+                // 发出ajax的get请求
+                this.$ajax.get(url).then(res => {
+                    this.catelist = res.data.message;
+                });
+            },
             // 1.0 重置表单
             resetForm(formName) {
                 this.$refs[formName].resetFields();
