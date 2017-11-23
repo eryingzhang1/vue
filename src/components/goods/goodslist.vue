@@ -20,7 +20,9 @@
                         <el-col :span="6">
                             <!--按钮和搜索框  -->
                             <el-button size="small">全选</el-button>
-                            <el-button size="small">新增</el-button>
+                            <router-link to="/admin/goodsadd">
+                                <el-button size="small">新增</el-button>
+                            </router-link>
                             <el-button size="small">删除</el-button>
                         </el-col>
 
@@ -44,11 +46,10 @@
                     </el-table-column>
                     <el-table-column label="标题">
                         <template scope="scope">
-                            <el-tooltip class="item" effect="dark"                             
-                             placement="right-start">
-                             <div slot="content">
-                                 <img height="200" width="200" :src="scope.row.imgurl" alt="">
-                             </div>
+                            <el-tooltip class="item" effect="dark" placement="right-start">
+                                <div slot="content">
+                                    <img height="200" width="200" :src="scope.row.imgurl" alt="">
+                                </div>
                                 <a href="#">{{scope.row.title}}</a>
                             </el-tooltip>
 

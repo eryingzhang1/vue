@@ -22,6 +22,8 @@ import login from './components/account/login.vue';
 // 商品相关的组件
 import goodslist from './components/goods/goodslist.vue';
 
+import goodsadd from './components/goods/goodsadd.vue';
+
 // 3.0.2 实例化对象并且定义路由规则
 var router = new VueRouter({
     routes:[
@@ -33,7 +35,8 @@ var router = new VueRouter({
         {name:'layout',path:'/admin',component:layout,
         children:[
             // 商品列表
-            {name:'goodslist',path:'goodslist',component:goodslist}
+            {name:'goodslist',path:'goodslist',component:goodslist},
+            {name:'goodsadd',path:'goodsadd',component:goodsadd},
         ]
     }
     ]
